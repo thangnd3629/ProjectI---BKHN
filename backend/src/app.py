@@ -2,9 +2,10 @@ from flask import Flask, request, jsonify
 import json
 from flask_cors import CORS
 from vncorenlp import VnCoreNLP
-import pyodbc
+
 # To perform word segmentation, POS tagging, NER and then dependency parsing
-annotator = VnCoreNLP("backend\src\VnCoreNLP-1.1.1.jar", annotators="wseg,pos,ner", max_heap_size='-Xmx2g') 
+annotator = VnCoreNLP(r"C:\\Users\\Thang\Documents\\GitHub\\ProjectI---BKHN\backend\\src\\VnCoreNLP-1.1.1.jar", annotators="wseg,pos,ner", max_heap_size='-Xmx2g') 
+
 
 # To perform word segmentation, POS tagging and then NER
 # annotator = VnCoreNLP("<FULL-PATH-to-VnCoreNLP-jar-file>", annotators="wseg,pos,ner", max_heap_size='-Xmx2g') 
@@ -31,9 +32,11 @@ def ner_extract():
     sentence = requested_data['input']
     annotated_text = annotator.annotate(sentence)
     return annotated_text
-
-
-    
+@app.route('/textclassification',methods=["POST"])
+def classification():
+    requested_data = request.get_json()
+    sentence = requested_data['input']
+    return "OK"    
     
 
     

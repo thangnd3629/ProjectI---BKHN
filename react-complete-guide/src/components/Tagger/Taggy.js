@@ -48,7 +48,7 @@ const Taggy = (props) => {
     let jsx = []
     
 
-    // METHOD 2 - TOKENS
+    
     if (Array.isArray(text)) {
         // Rename 'text' to 'tokens' for clarity
         let tokens = [...text]
@@ -60,37 +60,9 @@ const Taggy = (props) => {
                 type: spans[s].type.toLowerCase()
             }
         }
-        console.log(tokens)
-        // Loop through the tokens array, looking for multi-word entities
-        // for (let t = 0; t < tokens.length; t++) {
-        //     // Check if we've stopped at an entity
-        //     if (tokens[t].token) {
-        //         // Examine the consecutive entities, if any.
-        //         for (let i = t + 1; i < tokens.length; i++) {
-        //             // Combine consecutive entities of the same type into one entity. Then, mark the duplicates as 'false'.
-        //             if (typeof tokens[i] !== 'string' && tokens[i].type === tokens[t].type) {
-        //                 tokens[t].token += ' ' + tokens[i].token
-        //                 tokens[i] = false
-        //             }
-        //             // Stop the loop when we've run out of consecutive entities
-        //             if (typeof tokens[i] === 'string') {
-        //                 break
-        //             }
-        //         }
-        //     }
-        // }
-        // // Filter out the consecutive entities that were marked as duplicates
-        // tokens = tokens.filter(val => !!val)
-        // // Add a space to the end of each string/non-entity
-        // let tokensWithSpaces = tokens.map(t => {
-        //     if (typeof t === 'string') {
-        //         return `${t} `
-        //     }
-        //     return t
-        // })
-        let tokensWithSpaces = tokens
-        // Loop through our 'tokens' array. Push strings directly to the 'jsx' array. Convert entity objects to jsx markup, then push to the 'jsx' array.
-        tokensWithSpaces.forEach(t => {
+        
+       
+        tokens.forEach(t => {
             if (typeof t === 'string') {
                 jsx.push(t)
             }
@@ -138,6 +110,7 @@ const Taggy = (props) => {
                         >
                             {t.type}
                         </span>
+                        
                     </mark>
                 )
             }
