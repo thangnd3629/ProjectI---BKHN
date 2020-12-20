@@ -1,3 +1,4 @@
 venv
 VnCoreNLP-1.1.1.jar
 backend/src/models
+.idea

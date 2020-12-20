@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import About from './components/About/About'
-
+import TextClassification from './containers/TextClassification/TextClassification'
 import NavBar from './components/NavBar/NavBar'
 import Ner from './containers/NerExtractor/Ner'
+
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
-
         <NavBar></NavBar>
-        <div className="container">
-          <div className="row">
-            
-            <div className="col-md-10">
-            <Ner></Ner>
-            </div>
-            
-          </div>
-        </div>
-        
-
         <Switch>
-
-          <Route path='/about' component={About}></Route>
-
-
+          <Route path='/about' exact component={About}></Route>
+          <Route path="/ner" exact component={Ner}></Route>
+          <Route path='/textclassify' exact component={TextClassification}></Route>
         </Switch>
 
       </BrowserRouter>

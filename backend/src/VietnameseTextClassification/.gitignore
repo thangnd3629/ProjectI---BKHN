@@ -1,0 +1,7 @@
+feature_extraction/
+processes_data/
+trained_model/
+vector_embedding/
+data
+demo
+draw_chart

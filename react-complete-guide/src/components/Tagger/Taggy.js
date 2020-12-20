@@ -63,8 +63,9 @@ const Taggy = (props) => {
         
        
         tokens.forEach(t => {
-            if (typeof t === 'string') {
-                jsx.push(t)
+            if (t.type === 'o') {
+                jsx.push(t.token.replace("_",'\xa0\xa0') + "\xa0\xa0")
+                
             }
             else {
                 jsx.push(

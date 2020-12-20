@@ -1,17 +1,10 @@
-import React from "react"
-import { Button } from "react-bootstrap";
-import AxInstance from '../../axios'
-const about = () =>{
-    const clicked = () => {
-        
-        AxInstance.get('/').then(
-            (response)=>{
-                console.log(response)
-            }
-        )
-    }
-    return(
-        <Button onClick={clicked}></Button>
+/* eslint-disable no-use-before-define */
+import React from 'react';
+
+
+export default function Playground() {
+    
+    return (
+        <h1>PROJECT</h1>
     );
 }
-export default about;
