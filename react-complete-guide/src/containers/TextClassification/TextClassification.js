@@ -20,8 +20,9 @@ class TextClassification extends Component {
       trained_classifier: null,
       predict_classifier: null,
       training: false,
+      predicting: false,
       finish_training_modal: false,
-      predicted_type:null,
+      predicted_type: null,
     };
     this.textInput = React.createRef();
   }
@@ -55,19 +56,21 @@ class TextClassification extends Component {
       '/classification/train/' + this.state.trained_classifier
     ).then(
       response => {
-        this.setState({finish_training_modal:true})
+        this.setState({ finish_training_modal: true })
         this.setState({ training: false })
       }
     )
   }
   predicting_request_handler = () => {
+    this.setState({ predicting: true })
     axiosInstance.post(
       '/classification/predict/' + this.state.predict_classifier,
       { "input": this.textInput.current.value }
     ).then(
       response => {
-        
-        this.setState({predicted_type:response.data})
+
+        this.setState({ predicted_type: response.data })
+        this.setState({ predicting: false })
       }
     )
   }
@@ -105,19 +108,19 @@ class TextClassification extends Component {
         this.setState({ predict_classifier: this.convert_names(value) })
       }
     }
-    const finish_training_modal = <Modal show={this.state.finish_training_modal} onHide={()=> {this.setState({finish_training_modal:false})}}>
+    const finish_training_modal = <Modal show={this.state.finish_training_modal} onHide={() => { this.setState({ finish_training_modal: false }) }}>
       <Modal.Header closeButton>
         <Modal.Title>Alert</Modal.Title>
       </Modal.Header>
       <Modal.Body>{this.state.trained_classifier} ready!</Modal.Body>
-      
+
     </Modal>
-    const finish_predicting_modal = <Modal show={this.state.predicted_type} onHide={()=> {this.setState({predicted_type:null})}}>
-    <Modal.Header closeButton>
-      <Modal.Title>Thể loại của văn bản</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>{this.state.predicted_type}</Modal.Body>
-  </Modal>
+    const finish_predicting_modal = <Modal show={this.state.predicted_type !== null} onHide={() => { this.setState({ predicted_type: null }) }}>
+      <Modal.Header closeButton>
+        <Modal.Title>Thể loại của văn bản</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>{this.state.predicted_type}</Modal.Body>
+    </Modal>
     return (
       <React.Fragment>
         {finish_training_modal}
@@ -128,15 +131,15 @@ class TextClassification extends Component {
               <span className={classes.Title}>Train classifier</span>
               <div className={classes.Content}>
                 <div>
-                  
-                    <Autocomplete
-                      style={{ width: "50vw", marginTop: "30px" }}
-                      {...train_props}
-                      id="Classifier"
-                      autoSelect
-                      renderInput={(params) => <TextField {...params} label="Classifier" margin="normal" />}
-                    />
-                  
+
+                  <Autocomplete
+                    style={{ width: "50vw", marginTop: "30px" }}
+                    {...train_props}
+                    id="Classifier"
+                    autoSelect
+                    renderInput={(params) => <TextField {...params} label="Classifier" margin="normal" />}
+                  />
+
                 </div>
               </div>
               <div className={classes.Actions}>
@@ -168,7 +171,22 @@ class TextClassification extends Component {
             <div className="form-group" style={{ width: "80vw", margin: "20px" }}>
               <label ><span className="badge badge-dark">Input</span></label>
               <textarea className="form-control" rows="3" style={{ height: "20vw" }} ref={this.textInput} ></textarea>
-              <button type="button" disabled={!this.state.predict_classifier} className="btn btn-primary" style={{ marginTop: "10px", marginBottom: "10px" }} onClick={this.predicting_request_handler}>Analyze</button>
+              {
+                this.state.predicting ? <Button variant="dark" disabled style={{ width: "20vw" }}>
+                  <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+
+                                        Loading...
+                                      </Button> :
+                                      <button type="button" disabled={!this.state.predict_classifier} className="btn btn-primary" style={{ marginTop: "10px", marginBottom: "10px" }} onClick={this.predicting_request_handler}>Analyze</button>
+
+              }
+              
             </div>
           </form>
         </div>

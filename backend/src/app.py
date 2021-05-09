@@ -11,7 +11,7 @@ from VietnameseTextClassification.predict import Predictor
 from os import listdir
 from VietnameseTextClassification.settings import MODEL_PATH,TEST_FILE_PATH
 
-annotator = VnCoreNLP(r"D:\WebDev\ProjectI\backend\src\VnCoreNLP-1.1.1.jar", annotators="wseg,pos,ner", max_heap_size='-Xmx2g')
+annotator = VnCoreNLP(r"C:\Users\Thang\Documents\GitHub\ProjectI---BKHN\backend\src\VnCoreNLP-1.1.1.jar", annotators="wseg,pos,ner", max_heap_size='-Xmx2g')
 
 
 
@@ -65,7 +65,7 @@ def handle_predict_request(model):
     pred = Predictor()
     
     try:
-        return pred.predict(TEST_FILE_PATH,"logistic")[0]
+        return pred.predict(TEST_FILE_PATH,model)[0]
     except:
         return "500"
 
